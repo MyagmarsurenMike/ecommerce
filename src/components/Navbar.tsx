@@ -1,16 +1,27 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
-import { Badge, Input } from 'antd';
-import { useCart } from '@/context/CartContext';
+import { ShoppingOutlined, SearchOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Badge, Input, Dropdown } from 'antd';
+import { useCartStore } from '@/store/cartStore';
+import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import type { User } from '@supabase/supabase-js';
 
 export default function Navbar() {
-  const { itemCount } = useCart();
+  const itemCount = useCartStore((s) => s.count)();
   const router = useRouter();
   const [searchInput, setSearchInput] = useState('');
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => listener.subscription.unsubscribe();
+  }, []);
 
   const handleSearch = (value: string) => {
     if (value.trim()) {
@@ -18,6 +29,27 @@ export default function Navbar() {
       setSearchInput('');
     }
   };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+    router.refresh();
+  };
+
+  const userMenuItems = [
+    {
+      key: 'orders',
+      label: <Link href="/account/orders">My Orders</Link>,
+    },
+    { type: 'divider' as const },
+    {
+      key: 'logout',
+      label: 'Sign Out',
+      icon: <LogoutOutlined />,
+      onClick: handleLogout,
+      danger: true,
+    },
+  ];
 
   return (
     <nav className="sticky top-0 z-50 bg-cream border-b border-stone-dark/10">
@@ -82,9 +114,21 @@ export default function Navbar() {
               <SearchOutlined style={{ fontSize: 18 }} />
             </button>
 
-            <button className="p-2 text-stone-dark hover:text-stone-accent transition-colors hidden sm:block">
-              <UserOutlined style={{ fontSize: 18 }} />
-            </button>
+            {/* User icon / dropdown */}
+            {user ? (
+              <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+                <button className="p-2 text-stone-accent hover:text-stone-dark transition-colors hidden sm:block">
+                  <UserOutlined style={{ fontSize: 18 }} />
+                </button>
+              </Dropdown>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden sm:block text-sm font-body text-stone-dark/60 hover:text-stone-accent transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
 
             <button
               onClick={() => router.push('/cart')}

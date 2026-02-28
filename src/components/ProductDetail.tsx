@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Product } from '@/data/products';
-import { useCart } from '@/context/CartContext';
+import { Product } from '@/types';
+import { useCartStore } from '@/store/cartStore';
 import { Button, Select, InputNumber, message } from 'antd';
 
 interface ProductDetailProps {
@@ -12,18 +12,13 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-  const { addItem } = useCart();
+  const addItem = useCartStore((s) => s.addItem);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string>('M');
+  const imageSrc = product.images[0] || '/sample_img/beauty-1.jpg';
 
   const handleAddToCart = () => {
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      quantity,
-    }, selectedSize);
+    addItem(product, quantity, selectedSize);
     message.success(`Added ${quantity} item(s) to cart`);
     setQuantity(1);
   };
@@ -45,7 +40,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Image */}
           <div className="aspect-[3/4] relative overflow-hidden bg-stone-dark/5 rounded-lg">
             <Image
-              src={product.image}
+              src={imageSrc}
               alt={product.name}
               fill
               className="object-cover"
@@ -56,7 +51,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className="flex flex-col justify-start">
             <div className="mb-6">
               <span className="text-xs font-body text-stone-dark/50 uppercase tracking-widest">
-                {product.category}
+                {product.categories?.name || ''}
               </span>
               <h1 className="text-4xl md:text-5xl font-display font-semibold text-stone-dark mt-2 mb-4">
                 {product.name}
@@ -96,7 +91,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </label>
               <InputNumber
                 min={1}
-                max={99}
+                max={product.stock_qty}
                 value={quantity}
                 onChange={(val) => setQuantity(val || 1)}
                 className="w-24"
@@ -108,9 +103,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               type="primary"
               size="large"
               onClick={handleAddToCart}
+              disabled={product.stock_qty === 0}
               className="mb-6 h-12 text-base font-body font-semibold"
             >
-              Add to Cart
+              {product.stock_qty === 0 ? 'Out of Stock' : 'Add to Cart'}
             </Button>
 
             {/* Additional Info */}
@@ -123,6 +119,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 <div>
                   <p className="text-stone-dark/50 mb-1">Returns</p>
                   <p className="text-stone-dark">30 days no questions</p>
+                </div>
+                <div>
+                  <p className="text-stone-dark/50 mb-1">In Stock</p>
+                  <p className="text-stone-dark">{product.stock_qty} units</p>
                 </div>
               </div>
             </div>

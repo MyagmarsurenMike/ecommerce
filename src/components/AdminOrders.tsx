@@ -7,10 +7,10 @@ import { orders, Order } from '@/data/orders';
 type StatusTab = 'All' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
 const statusConfig: Record<string, { bg: string; text: string }> = {
-  Processing: { bg: '#DBEAFE', text: '#1D4ED8' },
-  Shipped:    { bg: '#FEF3C7', text: '#B45309' },
-  Delivered:  { bg: '#DCFCE7', text: '#16A34A' },
-  Cancelled:  { bg: '#FEE2E2', text: '#DC2626' },
+  Processing: { bg: 'bg-blue-100', text: 'text-blue-700' },
+  Shipped:    { bg: 'bg-amber-100', text: 'text-amber-700' },
+  Delivered:  { bg: 'bg-green-100', text: 'text-green-700' },
+  Cancelled:  { bg: 'bg-red-100', text: 'text-red-700' },
 };
 
 function getInitials(name: string) {
@@ -57,95 +57,47 @@ export default function AdminOrders() {
   };
 
   return (
-    <div style={{ padding: '1.5rem' }}>
+    <div className="p-6">
       {/* Page header */}
-      <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div className="mb-6 flex justify-between items-start">
         <div>
-          <h1 style={{
-            fontSize: '1.5rem',
-            fontWeight: 700,
-            color: '#0F172A',
-            margin: 0,
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
+          <h1 className="text-2xl font-bold text-admin-900 m-0 font-display">
             Orders
           </h1>
-          <p style={{ color: '#64748B', margin: '0.25rem 0 0', fontSize: '0.875rem', fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-admin-600 m-0 mt-1 text-sm font-body">
             Manage and track all customer orders
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button style={{
-            backgroundColor: 'transparent',
-            color: '#0F172A',
-            border: '1px solid #E2E8F0',
-            borderRadius: '8px',
-            padding: '0.5rem 1rem',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 500,
-            cursor: 'pointer',
-          }}>
+        <div className="flex gap-3">
+          <button className="bg-transparent text-admin-900 border border-admin-200 rounded-lg px-4 py-2 text-sm font-body font-medium cursor-pointer">
             Export CSV
           </button>
-          <button style={{
-            backgroundColor: '#0F172A',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '8px',
-            padding: '0.5rem 1rem',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 500,
-            cursor: 'pointer',
-          }}>
+          <button className="bg-admin-900 text-white border-none rounded-lg px-4 py-2 text-sm font-body font-medium cursor-pointer">
             Create Order
           </button>
         </div>
       </div>
 
       {/* Card */}
-      <div style={{
-        backgroundColor: '#fff',
-        border: '1px solid #E2E8F0',
-        borderRadius: '12px',
-        overflow: 'hidden',
-      }}>
+      <div className="bg-white border border-admin-200 rounded-xl overflow-hidden">
         {/* Status tab row */}
-        <div style={{
-          display: 'flex',
-          borderBottom: '1px solid #E2E8F0',
-          padding: '0 1.5rem',
-          gap: '0',
-        }}>
+        <div className="flex border-b border-admin-200 px-6 gap-0">
           {statusTabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveStatusTab(tab)}
-              style={{
-                padding: '1rem 1.25rem',
-                border: 'none',
-                borderBottom: activeStatusTab === tab ? '2px solid #0F172A' : '2px solid transparent',
-                backgroundColor: 'transparent',
-                color: activeStatusTab === tab ? '#0F172A' : '#64748B',
-                fontSize: '0.875rem',
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: activeStatusTab === tab ? 600 : 400,
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                marginBottom: '-1px',
-              }}
+              className={`px-5 py-4 border-b-2 bg-transparent text-sm font-body font-medium cursor-pointer whitespace-nowrap -mb-1 ${
+                activeStatusTab === tab
+                  ? 'border-b-admin-900 text-admin-900'
+                  : 'border-b-transparent text-admin-600'
+              }`}
             >
               {tab} {tabCounts[tab] > 0 && (
-                <span style={{
-                  fontSize: '0.7rem',
-                  backgroundColor: activeStatusTab === tab ? '#0F172A' : '#F1F5F9',
-                  color: activeStatusTab === tab ? '#fff' : '#64748B',
-                  padding: '0.1rem 0.4rem',
-                  borderRadius: '9999px',
-                  marginLeft: '0.25rem',
-                  fontWeight: 600,
-                }}>
+                <span className={`text-xs rounded-full px-2 py-0.5 ml-2 font-semibold inline-block ${
+                  activeStatusTab === tab
+                    ? 'bg-admin-900 text-white'
+                    : 'bg-admin-100 text-admin-600'
+                }`}>
                   {tabCounts[tab]}
                 </span>
               )}
@@ -154,13 +106,7 @@ export default function AdminOrders() {
         </div>
 
         {/* Filter row */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          padding: '1rem 1.5rem',
-          borderBottom: '1px solid #E2E8F0',
-        }}>
+        <div className="flex items-center gap-3 px-6 py-4 border-b border-admin-200">
           <Select
             value={dateRange}
             onChange={setDateRange}
@@ -184,19 +130,7 @@ export default function AdminOrders() {
             ]}
             placeholder="SORT BY"
           />
-          <button style={{
-            background: '#F8FAFC',
-            border: '1px solid #E2E8F0',
-            borderRadius: '8px',
-            padding: '0.4rem 0.875rem',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            color: '#64748B',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.375rem',
-          }}>
+          <button className="bg-admin-50 border border-admin-200 rounded-lg px-3.5 py-2 text-sm font-body text-admin-600 cursor-pointer flex items-center gap-1.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             </svg>
@@ -205,22 +139,9 @@ export default function AdminOrders() {
         </div>
 
         {/* Table header */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '120px 1fr 120px 110px 120px 60px',
-          padding: '0.75rem 1.5rem',
-          backgroundColor: '#F8FAFC',
-          borderBottom: '1px solid #E2E8F0',
-        }}>
+        <div className="grid grid-cols-[120px_1fr_120px_110px_120px_60px] px-6 py-3 bg-admin-50 border-b border-admin-200">
           {['ORDER ID', 'CUSTOMER', 'DATE', 'TOTAL', 'STATUS', ''].map((h, i) => (
-            <div key={i} style={{
-              fontSize: '0.7rem',
-              fontWeight: 600,
-              color: '#94A3B8',
-              fontFamily: "'DM Sans', sans-serif",
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-            }}>
+            <div key={i} className="text-xs font-semibold text-admin-600 font-body uppercase tracking-widest">
               {h}
             </div>
           ))}
@@ -228,113 +149,54 @@ export default function AdminOrders() {
 
         {/* Table rows */}
         {filteredOrders.map((order) => {
-          const sc = statusConfig[order.status] || { bg: '#F1F5F9', text: '#64748B' };
+          const sc = statusConfig[order.status] || { bg: 'bg-admin-100', text: 'text-admin-600' };
           const initials = getInitials(order.customer);
           const bg = avatarColor(order.customer);
           return (
             <div
               key={order.id}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '120px 1fr 120px 110px 120px 60px',
-                padding: '0 1.5rem',
-                height: '64px',
-                borderBottom: '1px solid #E2E8F0',
-                alignItems: 'center',
-                backgroundColor: '#fff',
-              }}
+              className="grid grid-cols-[120px_1fr_120px_110px_120px_60px] px-6 h-16 border-b border-admin-200 items-center bg-white"
             >
               {/* Order ID */}
-              <div style={{
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                color: '#0F172A',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm font-semibold text-admin-900 font-body">
                 {order.orderId}
               </div>
 
               {/* Customer */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                <div style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: bg,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#fff',
-                  fontSize: '0.7rem',
-                  fontWeight: 700,
-                  fontFamily: "'DM Sans', sans-serif",
-                  flexShrink: 0,
-                }}>
+              <div className="flex items-center gap-2.5">
+                <div style={{ backgroundColor: bg }} className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold font-body flex-shrink-0">
                   {initials}
                 </div>
                 <div>
-                  <div style={{
-                    fontSize: '0.875rem',
-                    fontWeight: 600,
-                    color: '#0F172A',
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
+                  <div className="text-sm font-semibold text-admin-900 font-body">
                     {order.customer}
                   </div>
-                  <div style={{
-                    fontSize: '0.72rem',
-                    color: '#94A3B8',
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
+                  <div className="text-xs text-admin-600 font-body">
                     {order.email}
                   </div>
                 </div>
               </div>
 
               {/* Date */}
-              <div style={{
-                fontSize: '0.875rem',
-                color: '#64748B',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm text-admin-600 font-body">
                 {order.date}
               </div>
 
               {/* Total */}
-              <div style={{
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                color: '#0F172A',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm font-semibold text-admin-900 font-body">
                 ${order.amount.toFixed(2)}
               </div>
 
               {/* Status badge */}
               <div>
-                <span style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  backgroundColor: sc.bg,
-                  color: sc.text,
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: '9999px',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}>
+                <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full font-body ${sc.bg} ${sc.text}`}>
                   {order.status}
                 </span>
               </div>
 
               {/* Actions */}
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: '#94A3B8',
-                  fontSize: '1.1rem',
-                  padding: '4px',
-                }}>
+              <div className="flex justify-center">
+                <button className="bg-none border-none cursor-pointer text-admin-600 text-lg p-1">
                   ⋮
                 </button>
               </div>
@@ -343,35 +205,19 @@ export default function AdminOrders() {
         })}
 
         {/* Pagination footer */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem 1.5rem',
-          borderTop: '1px solid #E2E8F0',
-        }}>
-          <span style={{
-            fontSize: '0.875rem',
-            color: '#64748B',
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
+        <div className="flex justify-between items-center px-6 py-4 border-t border-admin-200">
+          <span className="text-sm text-admin-600 font-body">
             Showing 1 to {filteredOrders.length} of 128 orders
           </span>
-          <div style={{ display: 'flex', gap: '0.375rem', alignItems: 'center' }}>
+          <div className="flex gap-1.5 items-center">
             {['Prev', '1', '2', '3', 'Next'].map((label) => (
               <button
                 key={label}
-                style={{
-                  padding: '0.375rem 0.75rem',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '6px',
-                  backgroundColor: label === '1' ? '#0F172A' : '#fff',
-                  color: label === '1' ? '#fff' : '#64748B',
-                  fontSize: '0.875rem',
-                  fontFamily: "'DM Sans', sans-serif",
-                  cursor: 'pointer',
-                  fontWeight: label === '1' ? 600 : 400,
-                }}
+                className={`px-3 py-1.5 border border-admin-200 rounded-md text-sm font-body cursor-pointer font-medium ${
+                  label === '1'
+                    ? 'bg-admin-900 border-admin-900 text-white'
+                    : 'bg-white text-admin-600'
+                }`}
               >
                 {label}
               </button>

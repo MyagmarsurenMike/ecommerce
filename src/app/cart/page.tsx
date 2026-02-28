@@ -2,13 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCart } from '@/context/CartContext';
+import { useCartStore } from '@/store/cartStore';
 import { Button, InputNumber, Table, Empty, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, total, clear } = useCart();
+  const items = useCartStore((s) => s.items);
+  const removeItem = useCartStore((s) => s.removeItem);
+  const updateQty = useCartStore((s) => s.updateQty);
+  const clearCart = useCartStore((s) => s.clearCart);
+  const total = useCartStore((s) => s.total)();
 
   const columns: ColumnsType = [
     {
@@ -18,14 +22,14 @@ export default function CartPage() {
         <div className="flex gap-4">
           <div className="w-20 h-20 relative flex-shrink-0 bg-stone-dark/5 rounded">
             <Image
-              src={record.image}
-              alt={record.name}
+              src={record.product.images[0] || '/sample_img/cosmetic-male.jpg'}
+              alt={record.product.name}
               fill
               className="object-cover rounded"
             />
           </div>
           <div>
-            <p className="font-semibold text-stone-dark">{record.name}</p>
+            <p className="font-semibold text-stone-dark">{record.product.name}</p>
             {record.size && (
               <p className="text-sm text-stone-dark/60">Size: {record.size}</p>
             )}
@@ -37,7 +41,7 @@ export default function CartPage() {
       title: 'Price',
       key: 'price',
       width: 100,
-      render: (_, record: any) => `$${record.price}`,
+      render: (_, record: any) => `$${record.product.price}`,
     },
     {
       title: 'Quantity',
@@ -48,7 +52,7 @@ export default function CartPage() {
           min={1}
           max={99}
           value={record.quantity}
-          onChange={(val) => updateQuantity(record.id, val || 1)}
+          onChange={(val) => updateQty(record.product.id, val || 1, record.size)}
           className="w-20"
         />
       ),
@@ -57,7 +61,7 @@ export default function CartPage() {
       title: 'Subtotal',
       key: 'subtotal',
       width: 100,
-      render: (_, record: any) => `$${(record.price * record.quantity).toFixed(2)}`,
+      render: (_, record: any) => `$${(record.product.price * record.quantity).toFixed(2)}`,
     },
     {
       title: '',
@@ -66,7 +70,7 @@ export default function CartPage() {
       render: (_, record: any) => (
         <button
           onClick={() => {
-            removeItem(record.id);
+            removeItem(record.product.id, record.size);
             message.info('Item removed');
           }}
           className="text-stone-accent hover:text-stone-dark transition-colors"
@@ -110,7 +114,7 @@ export default function CartPage() {
                 columns={columns}
                 dataSource={items.map((item) => ({
                   ...item,
-                  key: `${item.id}-${item.size}`,
+                  key: `${item.product.id}-${item.size}`,
                 }))}
                 pagination={false}
                 bordered={false}
@@ -167,7 +171,7 @@ export default function CartPage() {
 
                 <button
                   onClick={() => {
-                    clear();
+                    clearCart();
                     message.info('Cart cleared');
                   }}
                   className="block w-full mt-4 text-sm text-stone-accent hover:text-stone-dark transition-colors font-body"

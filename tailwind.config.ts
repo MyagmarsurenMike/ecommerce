@@ -14,6 +14,15 @@ const config: Config = {
           dark: "#1A1A1A",
           accent: "#8B7355",
         },
+        admin: {
+          50: "#F8FAFC",
+          100: "#F1F5F9",
+          200: "#E2E8F0",
+          600: "#64748B",
+          700: "#475569",
+          800: "#1E293B",
+          900: "#0F172A",
+        },
       },
       fontFamily: {
         display: ["var(--font-playfair)", "serif"],

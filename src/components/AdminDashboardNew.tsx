@@ -21,57 +21,24 @@ function MetricCardSimple({
   icon: React.ReactNode;
 }) {
   return (
-    <div style={{
-      backgroundColor: '#fff',
-      border: '1px solid #E2E8F0',
-      borderRadius: '12px',
-      padding: '1.25rem',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0.75rem',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '10px',
-          backgroundColor: iconBg,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+    <div className="bg-white border border-admin-200 rounded-xl p-5 flex flex-col gap-3">
+      <div className="flex justify-between items-start">
+        <div className={`w-10 h-10 rounded-lg ${iconBg} flex items-center justify-center`}>
           {icon}
         </div>
         {change !== undefined && (
-          <span style={{
-            fontSize: '0.75rem',
-            fontWeight: 600,
-            color: changeLabel ? '#94A3B8' : (isPositive ? '#16A34A' : '#DC2626'),
-            backgroundColor: changeLabel ? '#F1F5F9' : (isPositive ? '#DCFCE7' : '#FEE2E2'),
-            padding: '0.2rem 0.5rem',
-            borderRadius: '9999px',
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
+          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full font-body ${
+            changeLabel ? 'bg-admin-100 text-admin-600' : (isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')
+          }`}>
             {changeLabel || change}
           </span>
         )}
       </div>
       <div>
-        <div style={{
-          fontSize: '0.8rem',
-          color: '#64748B',
-          fontFamily: "'DM Sans', sans-serif",
-          marginBottom: '0.25rem',
-        }}>
+        <div className="text-xs text-admin-600 font-body mb-1">
           {title}
         </div>
-        <div style={{
-          fontSize: '1.625rem',
-          fontWeight: 700,
-          color: '#0F172A',
-          fontFamily: "'DM Sans', sans-serif",
-          lineHeight: 1.2,
-        }}>
+        <div className="text-xl font-bold text-admin-900 font-body leading-tight">
           {value}
         </div>
       </div>
@@ -106,27 +73,22 @@ export default function AdminDashboardNew() {
     .slice(5, 8);
 
   const categoryPillColors: Record<string, { bg: string; text: string }> = {
-    Furniture: { bg: '#DBEAFE', text: '#1D4ED8' },
-    Seating: { bg: '#FEF3C7', text: '#B45309' },
-    Lighting: { bg: '#DCFCE7', text: '#16A34A' },
-    Decor: { bg: '#F3E8FF', text: '#7C3AED' },
+    Furniture: { bg: 'bg-blue-100', text: 'text-blue-700' },
+    Seating: { bg: 'bg-amber-100', text: 'text-amber-700' },
+    Lighting: { bg: 'bg-green-100', text: 'text-green-700' },
+    Decor: { bg: 'bg-purple-100', text: 'text-purple-700' },
   };
 
   return (
-    <div style={{ padding: '1.5rem' }}>
+    <div className="p-6">
       {/* Metric Cards */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '1rem',
-        marginBottom: '1.5rem',
-      }}>
+      <div className="grid grid-cols-4 gap-4 mb-6">
         <MetricCardSimple
           title="Total Sales"
           value={`$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           change="+12.5%"
           isPositive={true}
-          iconBg="#DBEAFE"
+          iconBg="bg-blue-100"
           icon={
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="1" x2="12" y2="23" />
@@ -139,7 +101,7 @@ export default function AdminDashboardNew() {
           value="1,240"
           change="-2.1%"
           isPositive={false}
-          iconBg="#FCE7F3"
+          iconBg="bg-pink-100"
           icon={
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BE185D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -153,7 +115,7 @@ export default function AdminDashboardNew() {
           value="328"
           change="+18.2%"
           isPositive={true}
-          iconBg="#FEF3C7"
+          iconBg="bg-amber-100"
           icon={
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -167,7 +129,7 @@ export default function AdminDashboardNew() {
           title="Stock Alerts"
           value="12"
           changeLabel="Action Needed"
-          iconBg="#FEF3C7"
+          iconBg="bg-amber-100"
           icon={
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
@@ -179,64 +141,22 @@ export default function AdminDashboardNew() {
       </div>
 
       {/* Two-column layout: 65% / 35% */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '65fr 35fr',
-        gap: '1rem',
-      }}>
+      <div className="grid grid-cols-[1.857fr_1fr] gap-4">
         {/* Left: Top Selling Products table */}
-        <div style={{
-          backgroundColor: '#fff',
-          border: '1px solid #E2E8F0',
-          borderRadius: '12px',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '1.25rem 1.5rem',
-            borderBottom: '1px solid #E2E8F0',
-          }}>
-            <h3 style={{
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: '#0F172A',
-              margin: 0,
-              fontFamily: "'DM Sans', sans-serif",
-            }}>
+        <div className="bg-white border border-admin-200 rounded-xl overflow-hidden">
+          <div className="flex justify-between items-center px-6 py-5 border-b border-admin-200">
+            <h3 className="text-base font-bold text-admin-900 m-0 font-body">
               Top Selling Products
             </h3>
-            <button style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '0.8rem',
-              color: '#64748B',
-              fontFamily: "'DM Sans', sans-serif",
-              textDecoration: 'underline',
-            }}>
+            <button className="bg-none border-none cursor-pointer text-sm text-admin-600 font-body underline">
               View All
             </button>
           </div>
 
           {/* Table header */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr 80px 100px',
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#F8FAFC',
-            borderBottom: '1px solid #E2E8F0',
-          }}>
+          <div className="grid grid-cols-[2fr_1fr_80px_100px] px-6 py-3 bg-admin-50 border-b border-admin-200">
             {['PRODUCT NAME', 'CATEGORY', 'SALES', 'REVENUE'].map((h) => (
-              <div key={h} style={{
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                color: '#94A3B8',
-                fontFamily: "'DM Sans', sans-serif",
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-              }}>
+              <div key={h} className="text-xs font-semibold text-admin-600 font-body uppercase tracking-widest">
                 {h}
               </div>
             ))}
@@ -244,76 +164,40 @@ export default function AdminDashboardNew() {
 
           {/* Table rows */}
           {topProducts.map((product) => {
-            const pillColor = categoryPillColors[product.category] || { bg: '#F1F5F9', text: '#64748B' };
+            const pillColor = categoryPillColors[product.category] || { bg: 'bg-admin-100', text: 'text-admin-600' };
             return (
               <div
                 key={product.id}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '2fr 1fr 80px 100px',
-                  padding: '1rem 1.5rem',
-                  borderBottom: '1px solid #E2E8F0',
-                  alignItems: 'center',
-                }}
+                className="grid grid-cols-[2fr_1fr_80px_100px] px-6 py-4 border-b border-admin-200 items-center"
               >
                 {/* Product name with thumbnail */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <div style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    flexShrink: 0,
-                    backgroundColor: '#F1F5F9',
-                  }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-admin-100">
                     <img
                       src={product.image}
                       alt={product.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      className="w-full h-full object-cover"
                     />
                   </div>
-                  <span style={{
-                    fontSize: '0.875rem',
-                    fontWeight: 600,
-                    color: '#0F172A',
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
+                  <span className="text-sm font-semibold text-admin-900 font-body">
                     {product.name}
                   </span>
                 </div>
 
                 {/* Category pill */}
                 <div>
-                  <span style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 500,
-                    backgroundColor: pillColor.bg,
-                    color: pillColor.text,
-                    padding: '0.2rem 0.6rem',
-                    borderRadius: '9999px',
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
+                  <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full font-body ${pillColor.bg} ${pillColor.text}`}>
                     {product.category}
                   </span>
                 </div>
 
                 {/* Sales */}
-                <div style={{
-                  fontSize: '0.875rem',
-                  color: '#0F172A',
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 500,
-                }}>
+                <div className="text-sm text-admin-900 font-body font-medium">
                   {product.sales}
                 </div>
 
                 {/* Revenue */}
-                <div style={{
-                  fontSize: '0.875rem',
-                  color: '#0F172A',
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 600,
-                }}>
+                <div className="text-sm text-admin-900 font-body font-semibold">
                   ${product.revenue.toFixed(2)}
                 </div>
               </div>
@@ -322,82 +206,30 @@ export default function AdminDashboardNew() {
         </div>
 
         {/* Right: Two stacked cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className="flex flex-col gap-4">
           {/* Stock Management */}
-          <div style={{
-            backgroundColor: '#fff',
-            border: '1px solid #E2E8F0',
-            borderRadius: '12px',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '1.25rem 1.25rem 0.75rem',
-            }}>
-              <h3 style={{
-                fontSize: '0.95rem',
-                fontWeight: 700,
-                color: '#0F172A',
-                margin: 0,
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+          <div className="bg-white border border-admin-200 rounded-xl overflow-hidden">
+            <div className="flex justify-between items-center px-5 pt-5 pb-3">
+              <h3 className="text-sm font-bold text-admin-900 m-0 font-body">
                 Stock Management
               </h3>
-              <span style={{
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                backgroundColor: '#FEE2E2',
-                color: '#DC2626',
-                padding: '0.2rem 0.5rem',
-                borderRadius: '9999px',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <span className="text-xs font-semibold bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-body">
                 Low Stock
               </span>
             </div>
 
-            <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div className="px-5 pb-5 flex flex-col gap-3">
               {lowStockProducts.map((p) => (
-                <div key={p.id} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '0.5rem',
-                }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{
-                      fontSize: '0.8rem',
-                      fontWeight: 600,
-                      color: '#0F172A',
-                      fontFamily: "'DM Sans', sans-serif",
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}>
+                <div key={p.id} className="flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="text-xs font-semibold text-admin-900 font-body whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                       {p.name}
                     </div>
-                    <div style={{
-                      fontSize: '0.72rem',
-                      color: '#DC2626',
-                      fontFamily: "'DM Sans', sans-serif",
-                    }}>
+                    <div className="text-xs text-red-600 font-body">
                       Stock: {Math.floor(p.price / 10)} units
                     </div>
                   </div>
-                  <button style={{
-                    backgroundColor: '#F8FAFC',
-                    border: '1px solid #E2E8F0',
-                    borderRadius: '6px',
-                    padding: '0.25rem 0.625rem',
-                    fontSize: '0.72rem',
-                    fontFamily: "'DM Sans', sans-serif",
-                    color: '#0F172A',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    flexShrink: 0,
-                  }}>
+                  <button className="bg-admin-50 border border-admin-200 rounded-md px-2.5 py-1 text-xs font-body text-admin-900 cursor-pointer whitespace-nowrap flex-shrink-0">
                     Update
                   </button>
                 </div>
@@ -406,81 +238,32 @@ export default function AdminDashboardNew() {
           </div>
 
           {/* Trending Products */}
-          <div style={{
-            backgroundColor: '#fff',
-            border: '1px solid #E2E8F0',
-            borderRadius: '12px',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '1.25rem 1.25rem 0.75rem',
-            }}>
-              <h3 style={{
-                fontSize: '0.95rem',
-                fontWeight: 700,
-                color: '#0F172A',
-                margin: 0,
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+          <div className="bg-white border border-admin-200 rounded-xl overflow-hidden">
+            <div className="flex justify-between items-center px-5 pt-5 pb-3">
+              <h3 className="text-sm font-bold text-admin-900 m-0 font-body">
                 Trending Products
               </h3>
-              <span style={{
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                backgroundColor: '#DCFCE7',
-                color: '#16A34A',
-                padding: '0.2rem 0.5rem',
-                borderRadius: '9999px',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <span className="text-xs font-semibold bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-body">
                 Live Updates
               </span>
             </div>
 
-            <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div className="px-5 pb-5 flex flex-col gap-3">
               {trendingProducts.map((p, i) => (
-                <div key={p.id} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                }}>
-                  <div style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '6px',
-                    overflow: 'hidden',
-                    flexShrink: 0,
-                    backgroundColor: '#F1F5F9',
-                  }}>
+                <div key={p.id} className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-admin-100">
                     <img
                       src={p.image}
                       alt={p.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      className="w-full h-full object-cover"
                     />
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      fontSize: '0.8rem',
-                      fontWeight: 600,
-                      color: '#0F172A',
-                      fontFamily: "'DM Sans', sans-serif",
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-semibold text-admin-900 font-body whitespace-nowrap overflow-hidden text-overflow-ellipsis">
                       {p.name}
                     </div>
                   </div>
-                  <div style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    color: '#16A34A',
-                    fontFamily: "'DM Sans', sans-serif",
-                    whiteSpace: 'nowrap',
-                  }}>
+                  <div className="text-xs font-semibold text-green-700 font-body whitespace-nowrap">
                     +{(i + 1) * 7 + 3}% growth
                   </div>
                 </div>

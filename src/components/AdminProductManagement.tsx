@@ -12,9 +12,9 @@ interface EditingProduct extends Product {
 type StockStatus = 'In Stock' | 'Low Stock' | 'Out of Stock';
 
 const stockStatusConfig: Record<StockStatus, { bg: string; text: string }> = {
-  'In Stock':    { bg: '#DCFCE7', text: '#16A34A' },
-  'Low Stock':   { bg: '#FEF3C7', text: '#B45309' },
-  'Out of Stock':{ bg: '#FEE2E2', text: '#DC2626' },
+  'In Stock':    { bg: 'bg-green-100', text: 'text-green-700' },
+  'Low Stock':   { bg: 'bg-amber-100', text: 'text-amber-700' },
+  'Out of Stock':{ bg: 'bg-red-100', text: 'text-red-700' },
 };
 
 function getStockStatus(id: string): StockStatus {
@@ -78,44 +78,19 @@ export default function AdminProductManagement() {
   });
 
   return (
-    <div style={{ padding: '1.5rem' }}>
+    <div className="p-6">
       {/* Page header */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h1 style={{
-          fontSize: '1.5rem',
-          fontWeight: 700,
-          color: '#0F172A',
-          margin: 0,
-          fontFamily: "'DM Sans', sans-serif",
-        }}>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-admin-900 m-0 font-display">
           Products
         </h1>
       </div>
 
       {/* Card */}
-      <div style={{
-        backgroundColor: '#fff',
-        border: '1px solid #E2E8F0',
-        borderRadius: '12px',
-        overflow: 'hidden',
-      }}>
+      <div className="bg-white border border-admin-200 rounded-xl overflow-hidden">
         {/* Filter row */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.75rem',
-          padding: '1rem 1.5rem',
-          borderBottom: '1px solid #E2E8F0',
-        }}>
-          <span style={{
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            color: '#94A3B8',
-            fontFamily: "'DM Sans', sans-serif",
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            whiteSpace: 'nowrap',
-          }}>
+        <div className="flex items-center gap-3 px-6 py-4 border-b border-admin-200">
+          <span className="text-xs font-semibold text-admin-600 font-body uppercase tracking-widest whitespace-nowrap">
             FILTERS:
           </span>
           <Select
@@ -135,31 +110,13 @@ export default function AdminProductManagement() {
               { label: 'Out of Stock', value: 'Out of Stock' },
             ]}
           />
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
-            <button style={{
-              background: '#F8FAFC',
-              border: '1px solid #E2E8F0',
-              borderRadius: '8px',
-              padding: '0.4rem 0.625rem',
-              cursor: 'pointer',
-              color: '#64748B',
-              display: 'flex',
-              alignItems: 'center',
-            }}>
+          <div className="ml-auto flex gap-2">
+            <button className="bg-admin-50 border border-admin-200 rounded-lg px-2.5 py-2 cursor-pointer text-admin-600 flex items-center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
               </svg>
             </button>
-            <button style={{
-              background: '#F8FAFC',
-              border: '1px solid #E2E8F0',
-              borderRadius: '8px',
-              padding: '0.4rem 0.625rem',
-              cursor: 'pointer',
-              color: '#64748B',
-              display: 'flex',
-              alignItems: 'center',
-            }}>
+            <button className="bg-admin-50 border border-admin-200 rounded-lg px-2.5 py-2 cursor-pointer text-admin-600 flex items-center">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
@@ -170,23 +127,9 @@ export default function AdminProductManagement() {
         </div>
 
         {/* Table header */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '56px 2fr 120px 1fr 100px 130px 90px',
-          padding: '0.75rem 1.5rem',
-          backgroundColor: '#F8FAFC',
-          borderBottom: '1px solid #E2E8F0',
-          gap: '0.5rem',
-        }}>
+        <div className="grid grid-cols-[56px_2fr_120px_1fr_100px_130px_90px] px-6 py-3 bg-admin-50 border-b border-admin-200 gap-2">
           {['IMAGE', 'PRODUCT NAME', 'SKU', 'CATEGORY', 'PRICE', 'STOCK STATUS', 'ACTIONS'].map((h) => (
-            <div key={h} style={{
-              fontSize: '0.7rem',
-              fontWeight: 600,
-              color: '#94A3B8',
-              fontFamily: "'DM Sans', sans-serif",
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-            }}>
+            <div key={h} className="text-xs font-semibold text-admin-600 font-body uppercase tracking-widest">
               {h}
             </div>
           ))}
@@ -199,106 +142,54 @@ export default function AdminProductManagement() {
           return (
             <div
               key={product.id}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '56px 2fr 120px 1fr 100px 130px 90px',
-                padding: '0.875rem 1.5rem',
-                borderBottom: '1px solid #E2E8F0',
-                alignItems: 'center',
-                gap: '0.5rem',
-                backgroundColor: '#fff',
-              }}
+              className="grid grid-cols-[56px_2fr_120px_1fr_100px_130px_90px] px-6 py-3.5 border-b border-admin-200 items-center gap-2 bg-white"
             >
               {/* Image */}
-              <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                backgroundColor: '#F1F5F9',
-              }}>
+              <div className="w-12 h-12 rounded-lg overflow-hidden bg-admin-100">
                 <img
                   src={product.image}
                   alt={product.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  className="w-full h-full object-cover"
                 />
               </div>
 
               {/* Product Name */}
               <div>
-                <div style={{
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  color: '#0F172A',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}>
+                <div className="text-sm font-semibold text-admin-900 font-body">
                   {product.name}
                 </div>
-                <div style={{
-                  fontSize: '0.75rem',
-                  color: '#94A3B8',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}>
+                <div className="text-xs text-admin-600 font-body">
                   {product.category} variant
                 </div>
               </div>
 
               {/* SKU */}
-              <div style={{
-                fontSize: '0.8rem',
-                color: '#64748B',
-                fontFamily: 'monospace',
-              }}>
+              <div className="text-sm text-admin-600 font-mono">
                 {generateSKU(product.id)}
               </div>
 
               {/* Category */}
-              <div style={{
-                fontSize: '0.875rem',
-                color: '#64748B',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm text-admin-600 font-body">
                 {product.category}
               </div>
 
               {/* Price */}
-              <div style={{
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                color: '#0F172A',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm font-semibold text-admin-900 font-body">
                 ${product.price.toFixed(2)}
               </div>
 
               {/* Stock Status */}
               <div>
-                <span style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  backgroundColor: sc.bg,
-                  color: sc.text,
-                  padding: '0.25rem 0.625rem',
-                  borderRadius: '9999px',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}>
+                <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full font-body ${sc.bg} ${sc.text}`}>
                   {stock}
                 </span>
               </div>
 
               {/* Actions */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleEdit(product)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#64748B',
-                    padding: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
+                  className="bg-none border-none cursor-pointer text-admin-600 p-1 flex items-center"
                 >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -312,15 +203,7 @@ export default function AdminProductManagement() {
                   okText="Yes"
                   cancelText="No"
                 >
-                  <button style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: '#DC2626',
-                    padding: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}>
+                  <button className="bg-none border-none cursor-pointer text-red-600 p-1 flex items-center">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="3 6 5 6 21 6" />
                       <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
@@ -333,35 +216,19 @@ export default function AdminProductManagement() {
         })}
 
         {/* Pagination footer */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem 1.5rem',
-          borderTop: '1px solid #E2E8F0',
-        }}>
-          <span style={{
-            fontSize: '0.875rem',
-            color: '#64748B',
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
+        <div className="flex justify-between items-center px-6 py-4 border-t border-admin-200">
+          <span className="text-sm text-admin-600 font-body">
             Showing 1 to {filteredProducts.length} of {filteredProducts.length} products
           </span>
-          <div style={{ display: 'flex', gap: '0.375rem', alignItems: 'center' }}>
+          <div className="flex gap-1.5 items-center">
             {['Prev', '1', '2', '3', 'Next'].map((label) => (
               <button
                 key={label}
-                style={{
-                  padding: '0.375rem 0.75rem',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '6px',
-                  backgroundColor: label === '1' ? '#0F172A' : '#fff',
-                  color: label === '1' ? '#fff' : '#64748B',
-                  fontSize: '0.875rem',
-                  fontFamily: "'DM Sans', sans-serif",
-                  cursor: 'pointer',
-                  fontWeight: label === '1' ? 600 : 400,
-                }}
+                className={`px-3 py-1.5 border border-admin-200 rounded-md text-sm font-body cursor-pointer font-medium ${
+                  label === '1'
+                    ? 'bg-admin-900 border-admin-900 text-white'
+                    : 'bg-white text-admin-600'
+                }`}
               >
                 {label}
               </button>

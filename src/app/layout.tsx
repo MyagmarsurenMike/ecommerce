@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { ConfigProvider } from 'antd';
-import { CartProvider } from '@/context/CartContext';
 import NavbarWrapper from '@/components/NavbarWrapper';
 import './globals.css';
 
@@ -25,9 +24,7 @@ export default function RootLayout({
             },
           }}
         >
-          <CartProvider>
-            <NavbarWrapper>{children}</NavbarWrapper>
-          </CartProvider>
+          <NavbarWrapper>{children}</NavbarWrapper>
         </ConfigProvider>
       </body>
     </html>

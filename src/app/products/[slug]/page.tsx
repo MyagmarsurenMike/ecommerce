@@ -1,14 +1,20 @@
 import Link from 'next/link';
-import { products } from '@/data/products';
+import { createSupabaseServerClient } from '@/lib/supabase-server';
 import ProductDetail from '@/components/ProductDetail';
 
 export default async function ProductDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { id } = await params;
-  const product = products.find((p) => p.id === id);
+  const { slug } = await params;
+  const supabase = await createSupabaseServerClient();
+
+  const { data: product } = await supabase
+    .from('products')
+    .select('*, categories(*)')
+    .eq('slug', slug)
+    .single();
 
   if (!product) {
     return (

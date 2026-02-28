@@ -1,32 +1,41 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import HeroBanner from '@/components/HeroBanner';
+import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { Product } from '@/types';
 
 const shopCategories = [
   {
     name: 'Living Room',
     count: 4,
     image: '/sample_img/cosmetic-male.jpg',
-    href: '/products?category=Furniture',
+    href: '/products?category=Living Room',
   },
   {
     name: 'Bedroom',
     count: 2,
     image: '/sample_img/still-life-1.jpg',
-    href: '/products?category=Seating',
+    href: '/products?category=Bedroom',
   },
   {
     name: 'Kitchen',
     count: 3,
     image: '/sample_img/toilet-bag.jpg',
-    href: '/products?category=Lighting',
+    href: '/products?category=Kitchen',
   },
 ];
 
-export default function Home() {
-  const newArrivals = products.filter((p) => p.featured).slice(0, 4);
+export default async function Home() {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from('products')
+    .select('*, categories(*)')
+    .eq('is_active', true)
+    .order('sales_count', { ascending: false })
+    .limit(4);
+
+  const newArrivals: Product[] = data ?? [];
 
   return (
     <div>

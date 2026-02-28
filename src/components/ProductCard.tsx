@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Product } from '@/data/products';
-import { useCart } from '@/context/CartContext';
-import { Button } from 'antd';
+import { Product } from '@/types';
+import { useCartStore } from '@/store/cartStore';
 import { ShoppingOutlined } from '@ant-design/icons';
 
 interface ProductCardProps {
@@ -12,24 +11,20 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addItem } = useCart();
+  const addItem = useCartStore((s) => s.addItem);
+  const imageSrc = product.images[0] || '/sample_img/cosmetic-male.jpg';
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-    });
+    addItem(product, 1);
   };
 
   return (
-    <Link href={`/products/${product.id}`}>
+    <Link href={`/products/${product.slug}`}>
       <div className="group cursor-pointer">
         <div className="relative overflow-hidden aspect-[3/4] mb-4 bg-stone-dark/5">
           <Image
-            src={product.image}
+            src={imageSrc}
             alt={product.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"

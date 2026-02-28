@@ -32,51 +32,22 @@ export default function AdminCustomers() {
   );
 
   return (
-    <div style={{ padding: '1.5rem' }}>
+    <div className="p-6">
       {/* Page header */}
-      <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div className="mb-6 flex justify-between items-start">
         <div>
-          <h1 style={{
-            fontSize: '1.5rem',
-            fontWeight: 700,
-            color: '#0F172A',
-            margin: 0,
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
+          <h1 className="text-2xl font-bold text-admin-900 m-0 font-display">
             Customers Directory
           </h1>
-          <p style={{ color: '#64748B', margin: '0.25rem 0 0', fontSize: '0.875rem', fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-admin-600 m-0 mt-1 text-sm font-body">
             View and manage your customer base
           </p>
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button style={{
-            backgroundColor: 'transparent',
-            color: '#0F172A',
-            border: '1px solid #E2E8F0',
-            borderRadius: '8px',
-            padding: '0.5rem 1rem',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 500,
-            cursor: 'pointer',
-          }}>
+        <div className="flex gap-3">
+          <button className="bg-transparent text-admin-900 border border-admin-200 rounded-lg px-4 py-2 text-sm font-body font-medium cursor-pointer">
             Export CSV
           </button>
-          <button style={{
-            backgroundColor: 'transparent',
-            color: '#0F172A',
-            border: '1px solid #E2E8F0',
-            borderRadius: '8px',
-            padding: '0.5rem 1rem',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 500,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.375rem',
-          }}>
+          <button className="bg-transparent text-admin-900 border border-admin-200 rounded-lg px-4 py-2 text-sm font-body font-medium cursor-pointer flex items-center gap-1.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             </svg>
@@ -86,36 +57,14 @@ export default function AdminCustomers() {
       </div>
 
       {/* 3 Metric Cards */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '1rem',
-        marginBottom: '1.5rem',
-      }}>
+      <div className="grid grid-cols-3 gap-4 mb-6">
         {[
-          { title: 'TOTAL CUSTOMERS', value: '12,482', change: '+12%', isPositive: true, iconBg: '#DBEAFE', color: '#1D4ED8' },
-          { title: 'ACTIVE THIS MONTH', value: '3,120', change: '+5.4%', isPositive: true, iconBg: '#DCFCE7', color: '#16A34A' },
-          { title: 'AVG. CUSTOMER VALUE', value: '$412.50', change: 'Stable', isPositive: true, iconBg: '#FEF3C7', color: '#B45309' },
+          { title: 'TOTAL CUSTOMERS', value: '12,482', change: '+12%', isPositive: true, iconBg: 'bg-blue-100', color: '#1D4ED8' },
+          { title: 'ACTIVE THIS MONTH', value: '3,120', change: '+5.4%', isPositive: true, iconBg: 'bg-green-100', color: '#16A34A' },
+          { title: 'AVG. CUSTOMER VALUE', value: '$412.50', change: 'Stable', isPositive: true, iconBg: 'bg-amber-100', color: '#B45309' },
         ].map((card) => (
-          <div key={card.title} style={{
-            backgroundColor: '#fff',
-            border: '1px solid #E2E8F0',
-            borderRadius: '12px',
-            padding: '1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-          }}>
-            <div style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: '10px',
-              backgroundColor: card.iconBg,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}>
+          <div key={card.title} className="bg-white border border-admin-200 rounded-xl p-5 flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-lg ${card.iconBg} flex items-center justify-center flex-shrink-0`}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={card.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
@@ -124,36 +73,18 @@ export default function AdminCustomers() {
               </svg>
             </div>
             <div>
-              <div style={{
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                color: '#94A3B8',
-                fontFamily: "'DM Sans', sans-serif",
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '0.25rem',
-              }}>
+              <div className="text-xs font-semibold text-admin-600 font-body uppercase tracking-widest mb-1">
                 {card.title}
               </div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-                <span style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 700,
-                  color: '#0F172A',
-                  fontFamily: "'DM Sans', sans-serif",
-                  lineHeight: 1.2,
-                }}>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-admin-900 font-body leading-tight">
                   {card.value}
                 </span>
-                <span style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  color: card.change === 'Stable' ? '#64748B' : (card.isPositive ? '#16A34A' : '#DC2626'),
-                  backgroundColor: card.change === 'Stable' ? '#F1F5F9' : (card.isPositive ? '#DCFCE7' : '#FEE2E2'),
-                  padding: '0.15rem 0.4rem',
-                  borderRadius: '9999px',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}>
+                <span className={`text-xs font-semibold px-2 py-0.5 rounded-full font-body ${
+                  card.change === 'Stable'
+                    ? 'bg-admin-100 text-admin-600'
+                    : (card.isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')
+                }`}>
                   {card.change}
                 </span>
               </div>
@@ -163,22 +94,8 @@ export default function AdminCustomers() {
       </div>
 
       {/* Search + count */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '1rem',
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          backgroundColor: '#fff',
-          border: '1px solid #E2E8F0',
-          borderRadius: '8px',
-          padding: '0.5rem 0.875rem',
-          width: '320px',
-        }}>
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center gap-2 bg-white border border-admin-200 rounded-lg px-3.5 py-2 w-80">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -188,50 +105,20 @@ export default function AdminCustomers() {
             placeholder="Search by name, email or ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{
-              border: 'none',
-              background: 'transparent',
-              outline: 'none',
-              fontSize: '0.875rem',
-              color: '#0F172A',
-              fontFamily: "'DM Sans', sans-serif",
-              width: '100%',
-            }}
+            className="border-none bg-transparent outline-none text-sm text-admin-900 font-body w-full"
           />
         </div>
-        <span style={{
-          fontSize: '0.875rem',
-          color: '#64748B',
-          fontFamily: "'DM Sans', sans-serif",
-        }}>
+        <span className="text-sm text-admin-600 font-body">
           Showing 1-{filteredCustomers.length} of 12,482
         </span>
       </div>
 
       {/* Customers table card */}
-      <div style={{
-        backgroundColor: '#fff',
-        border: '1px solid #E2E8F0',
-        borderRadius: '12px',
-        overflow: 'hidden',
-      }}>
+      <div className="bg-white border border-admin-200 rounded-xl overflow-hidden">
         {/* Table header */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 2fr 100px 120px 140px 48px',
-          padding: '0.75rem 1.5rem',
-          backgroundColor: '#F8FAFC',
-          borderBottom: '1px solid #E2E8F0',
-        }}>
+        <div className="grid grid-cols-[2fr_2fr_100px_120px_140px_48px] px-6 py-3 bg-admin-50 border-b border-admin-200">
           {['CUSTOMER NAME', 'EMAIL ADDRESS', 'ORDERS', 'TOTAL SPENT', 'LAST ACTIVE', ''].map((h) => (
-            <div key={h} style={{
-              fontSize: '0.7rem',
-              fontWeight: 600,
-              color: '#94A3B8',
-              fontFamily: "'DM Sans', sans-serif",
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-            }}>
+            <div key={h} className="text-xs font-semibold text-admin-600 font-body uppercase tracking-widest">
               {h}
             </div>
           ))}
@@ -244,98 +131,45 @@ export default function AdminCustomers() {
           return (
             <div
               key={customer.id}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '2fr 2fr 100px 120px 140px 48px',
-                padding: '1rem 1.5rem',
-                borderBottom: '1px solid #E2E8F0',
-                alignItems: 'center',
-                backgroundColor: '#fff',
-              }}
+              className="grid grid-cols-[2fr_2fr_100px_120px_140px_48px] px-6 py-4 border-b border-admin-200 items-center bg-white"
             >
               {/* Customer name + avatar */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                <div style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  backgroundColor: '#F1F5F9',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#64748B',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  fontFamily: "'DM Sans', sans-serif",
-                  flexShrink: 0,
-                }}>
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full bg-admin-100 flex items-center justify-center text-admin-600 text-xs font-bold font-body flex-shrink-0">
                   {customer.id}
                 </div>
-                <span style={{
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  color: '#0F172A',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}>
+                <span className="text-sm font-semibold text-admin-900 font-body">
                   {customer.name}
                 </span>
               </div>
 
               {/* Email */}
-              <div style={{
-                fontSize: '0.875rem',
-                color: '#64748B',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm text-admin-600 font-body">
                 {customer.email}
               </div>
 
               {/* Orders */}
-              <div style={{
-                fontSize: '0.875rem',
-                color: '#0F172A',
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 500,
-              }}>
+              <div className="text-sm text-admin-900 font-body font-medium">
                 {customer.orders}
               </div>
 
               {/* Spent */}
-              <div style={{
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                color: '#0F172A',
-                fontFamily: "'DM Sans', sans-serif",
-              }}>
+              <div className="text-sm font-semibold text-admin-900 font-body">
                 ${customer.spent.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
 
               {/* Last Active badge */}
               <div>
-                <span style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 600,
-                  backgroundColor: recent ? '#DCFCE7' : '#F1F5F9',
-                  color: recent ? '#16A34A' : '#64748B',
-                  padding: '0.2rem 0.625rem',
-                  borderRadius: '9999px',
-                  fontFamily: "'DM Sans', sans-serif",
-                  whiteSpace: 'nowrap',
-                }}>
+                <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full font-body whitespace-nowrap ${
+                  recent ? 'bg-green-100 text-green-700' : 'bg-admin-100 text-admin-600'
+                }`}>
                   {customer.lastActive}
                 </span>
               </div>
 
               {/* Action icon */}
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: '#94A3B8',
-                  fontSize: '1.1rem',
-                  padding: '4px',
-                }}>
+              <div className="flex justify-center">
+                <button className="bg-none border-none cursor-pointer text-admin-600 text-lg p-1">
                   ⋮
                 </button>
               </div>
@@ -344,55 +178,25 @@ export default function AdminCustomers() {
         })}
 
         {/* Pagination */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '1rem 1.5rem',
-        }}>
-          <button style={{
-            padding: '0.375rem 0.875rem',
-            border: '1px solid #E2E8F0',
-            borderRadius: '6px',
-            backgroundColor: '#fff',
-            color: '#64748B',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            cursor: 'pointer',
-          }}>
+        <div className="flex justify-between items-center p-4">
+          <button className="px-3.5 py-1.5 border border-admin-200 rounded-md bg-white text-admin-600 text-sm font-body cursor-pointer">
             Previous
           </button>
-          <div style={{ display: 'flex', gap: '0.375rem', alignItems: 'center' }}>
+          <div className="flex gap-1.5 items-center">
             {['1', '2', '3', '...', '120'].map((label) => (
               <button
                 key={label}
-                style={{
-                  padding: '0.375rem 0.625rem',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '6px',
-                  backgroundColor: label === '1' ? '#0F172A' : '#fff',
-                  color: label === '1' ? '#fff' : '#64748B',
-                  fontSize: '0.875rem',
-                  fontFamily: "'DM Sans', sans-serif",
-                  cursor: 'pointer',
-                  fontWeight: label === '1' ? 600 : 400,
-                  minWidth: '36px',
-                }}
+                className={`px-2.5 py-1.5 border border-admin-200 rounded-md text-sm font-body cursor-pointer font-medium min-w-9 ${
+                  label === '1'
+                    ? 'bg-admin-900 text-white border-admin-900'
+                    : 'bg-white text-admin-600'
+                }`}
               >
                 {label}
               </button>
             ))}
           </div>
-          <button style={{
-            padding: '0.375rem 0.875rem',
-            border: '1px solid #E2E8F0',
-            borderRadius: '6px',
-            backgroundColor: '#fff',
-            color: '#64748B',
-            fontSize: '0.875rem',
-            fontFamily: "'DM Sans', sans-serif",
-            cursor: 'pointer',
-          }}>
+          <button className="px-3.5 py-1.5 border border-admin-200 rounded-md bg-white text-admin-600 text-sm font-body cursor-pointer">
             Next
           </button>
         </div>

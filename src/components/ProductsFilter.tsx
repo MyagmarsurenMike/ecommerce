@@ -1,17 +1,22 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { products, categories } from '@/data/products';
+import { Product, Category } from '@/types';
 import ProductCard from '@/components/ProductCard';
 import { useSearchParams } from 'next/navigation';
 import { Slider, Select } from 'antd';
 import { SlidersOutlined } from '@ant-design/icons';
 
+interface ProductsFilterProps {
+  products: Product[];
+  categories: Category[];
+}
+
 const COLORS = ['#2A2A2A', '#8B7355', '#5B7A5B', '#7A8B9B', '#D4C5B0'];
 const MAX_PRICE = 3500;
 type SortOption = 'featured' | 'price-asc' | 'price-desc';
 
-export default function ProductsFilter() {
+export default function ProductsFilter({ products, categories }: ProductsFilterProps) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
   const categoryParam = searchParams.get('category') || '';
@@ -37,13 +42,15 @@ export default function ProductsFilter() {
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
+          (p.categories?.name || '').toLowerCase().includes(q) ||
+          (p.description || '').toLowerCase().includes(q)
       );
     }
 
     if (selectedCategories.length > 0) {
-      result = result.filter((p) => selectedCategories.includes(p.category));
+      result = result.filter((p) =>
+        selectedCategories.includes(p.categories?.name || '')
+      );
     }
 
     result = result.filter(
@@ -52,13 +59,10 @@ export default function ProductsFilter() {
 
     if (sortBy === 'price-asc') result.sort((a, b) => a.price - b.price);
     else if (sortBy === 'price-desc') result.sort((a, b) => b.price - a.price);
-    else {
-      // featured first
-      result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-    }
+    else result.sort((a, b) => b.sales_count - a.sales_count);
 
     return result;
-  }, [searchQuery, selectedCategories, priceRange, sortBy]);
+  }, [searchQuery, selectedCategories, priceRange, sortBy, products]);
 
   const hasActiveFilters =
     selectedCategories.length > 0 ||
@@ -76,7 +80,6 @@ export default function ProductsFilter() {
     <div className="flex gap-10">
       {/* ── Sidebar ── */}
       <aside className="w-52 shrink-0">
-        {/* Header */}
         <div className="flex items-center justify-between mb-7">
           <div className="flex items-center gap-2">
             <SlidersOutlined className="text-stone-dark" />
@@ -98,32 +101,30 @@ export default function ProductsFilter() {
             Category
           </h3>
           <ul className="space-y-2.5">
-            {categories
-              .filter((c) => c !== 'All')
-              .map((cat) => {
-                const checked = selectedCategories.includes(cat);
-                return (
-                  <li key={cat}>
-                    <label className="flex items-center gap-2.5 cursor-pointer group">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        onChange={() => toggleCategory(cat)}
-                        className="w-3.5 h-3.5 rounded accent-stone-accent cursor-pointer"
-                      />
-                      <span
-                        className={`text-sm font-body transition-colors ${
-                          checked
-                            ? 'text-stone-dark font-semibold'
-                            : 'text-stone-dark/55 group-hover:text-stone-dark'
-                        }`}
-                      >
-                        {cat}
-                      </span>
-                    </label>
-                  </li>
-                );
-              })}
+            {categories.map((cat) => {
+              const checked = selectedCategories.includes(cat.name);
+              return (
+                <li key={cat.id}>
+                  <label className="flex items-center gap-2.5 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleCategory(cat.name)}
+                      className="w-3.5 h-3.5 rounded accent-stone-accent cursor-pointer"
+                    />
+                    <span
+                      className={`text-sm font-body transition-colors ${
+                        checked
+                          ? 'text-stone-dark font-semibold'
+                          : 'text-stone-dark/55 group-hover:text-stone-dark'
+                      }`}
+                    >
+                      {cat.name}
+                    </span>
+                  </label>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -213,7 +214,6 @@ export default function ProductsFilter() {
 
       {/* ── Main content ── */}
       <div className="flex-1 min-w-0">
-        {/* Top bar */}
         <div className="flex items-end justify-between mb-8">
           <div>
             <h1 className="text-2xl font-display font-semibold text-stone-dark">
@@ -245,7 +245,6 @@ export default function ProductsFilter() {
           />
         </div>
 
-        {/* Grid */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { SearchOutlined, BellOutlined, PlusOutlined, DownloadOutlined } from '@ant-design/icons';
+import { SearchOutlined, BellOutlined, PlusOutlined } from '@ant-design/icons';
 import AdminSidebar from '@/components/AdminSidebar';
 import AdminDashboardNew from '@/components/AdminDashboardNew';
 import AdminProductManagement from '@/components/AdminProductManagement';
@@ -38,9 +38,9 @@ export default function AdminPage() {
         return <AdminCustomers />;
       case 'settings':
         return (
-          <div style={{ padding: '2rem' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0F172A', fontFamily: "'DM Sans', sans-serif" }}>Settings</h2>
-            <p style={{ color: '#64748B' }}>Coming soon...</p>
+          <div className="p-6">
+            <h2 className="text-2xl font-bold text-admin-900 font-body">Settings</h2>
+            <p className="text-admin-600">Coming soon...</p>
           </div>
         );
       default:
@@ -49,109 +49,48 @@ export default function AdminPage() {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
+    <div className="flex h-screen bg-admin-50">
       {/* Sidebar */}
       <AdminSidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Main area */}
-      <div style={{
-        marginLeft: '250px',
-        width: 'calc(100% - 250px)',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-      }}>
+      <div className="ml-64 w-[calc(100%-16rem)] flex flex-col h-screen">
         {/* Top Header */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderBottom: '1px solid #E2E8F0',
-          padding: '0 1.5rem',
-          height: '64px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem',
-          position: 'sticky',
-          top: 0,
-          zIndex: 10,
-        }}>
+        <div className="bg-white border-b border-admin-200 px-6 h-16 flex items-center gap-4 sticky top-0 z-10">
           {/* Left: page title */}
-          <div style={{ flex: '0 0 auto' }}>
-            <div style={{
-              fontSize: '1rem',
-              fontWeight: 700,
-              color: '#0F172A',
-              fontFamily: "'DM Sans', sans-serif",
-              lineHeight: 1.2,
-            }}>
+          <div>
+            <div className="text-base font-bold text-admin-900 font-body leading-tight">
               {config.title}
             </div>
             {config.subtitle && (
-              <div style={{ fontSize: '0.75rem', color: '#94A3B8', fontFamily: "'DM Sans', sans-serif" }}>
+              <div className="text-xs text-admin-600 font-body">
                 {config.subtitle}
               </div>
             )}
           </div>
 
           {/* Center: search */}
-          <div style={{ flex: 1, maxWidth: '360px', margin: '0 auto' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              backgroundColor: '#F1F5F9',
-              borderRadius: '9999px',
-              padding: '0.5rem 1rem',
-            }}>
-              <SearchOutlined style={{ color: '#94A3B8', fontSize: '0.875rem' }} />
+          <div className="flex-1 max-w-sm mx-auto">
+            <div className="flex items-center gap-2 bg-admin-100 rounded-full px-4 py-2">
+              <SearchOutlined className="text-admin-600 text-sm" />
               <input
                 type="text"
                 placeholder="Search..."
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                style={{
-                  border: 'none',
-                  background: 'transparent',
-                  outline: 'none',
-                  fontSize: '0.875rem',
-                  color: '#0F172A',
-                  fontFamily: "'DM Sans', sans-serif",
-                  width: '100%',
-                }}
+                className="border-none bg-transparent outline-none text-sm text-admin-900 font-body w-full placeholder-admin-600"
               />
             </div>
           </div>
 
           {/* Right: bell + action button */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginLeft: 'auto' }}>
-            <button style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: '#64748B',
-              padding: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: '6px',
-            }}>
-              <BellOutlined style={{ fontSize: '18px' }} />
+          <div className="flex items-center gap-3 ml-auto">
+            <button className="bg-none border-none cursor-pointer text-admin-600 p-1.5 flex items-center rounded-lg hover:bg-admin-100">
+              <BellOutlined className="text-lg" />
             </button>
             {config.actionLabel && (
-              <button style={{
-                backgroundColor: '#0F172A',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '0.5rem 1rem',
-                fontSize: '0.875rem',
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 500,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                whiteSpace: 'nowrap',
-              }}>
-                <PlusOutlined style={{ fontSize: '13px' }} />
+              <button className="bg-admin-900 text-white border-none rounded-lg px-4 py-2 text-sm font-body font-medium cursor-pointer flex items-center gap-1.5 whitespace-nowrap">
+                <PlusOutlined className="text-xs" />
                 {config.actionLabel}
               </button>
             )}
@@ -159,7 +98,7 @@ export default function AdminPage() {
         </div>
 
         {/* Page content */}
-        <div style={{ flex: 1, backgroundColor: '#F8FAFC' }}>
+        <div className="flex-1 bg-admin-50 overflow-y-auto">
           {renderContent()}
         </div>
       </div>
